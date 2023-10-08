@@ -3,21 +3,43 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from '@/screens/Home';
 import HomeDetailScreen from '@/screens/Home/Details';
 
-const Stack = createNativeStackNavigator();
+export type RootStackParamList = {
+  Home: undefined;
+  HomeDetail: { id: string };
+};
 
-export default function Home() {
+const RootStack = createNativeStackNavigator<RootStackParamList>();
+
+export default function Routers() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
+      <RootStack.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#f4511e',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      >
+        <RootStack.Screen
           name="Home"
           component={HomeScreen}
           options={{
-            title: 'Home Screen',
+            title: '首页',
           }}
         />
-        <Stack.Screen name="HomeDetail" component={HomeDetailScreen} />
-      </Stack.Navigator>
+        <RootStack.Screen
+          name="HomeDetail"
+          component={HomeDetailScreen}
+          options={({ route }) => ({
+            title: route.name,
+          })}
+        />
+      </RootStack.Navigator>
     </NavigationContainer>
   );
 }
